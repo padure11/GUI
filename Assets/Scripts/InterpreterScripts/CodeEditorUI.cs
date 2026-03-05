@@ -4,11 +4,11 @@ using TMPro;
 public class CodeEditorUI : MonoBehaviour
 {
     public TMP_InputField codeInput;
-    public CommandParser parser;
+    public CommandExecutor executor;
 
     public void OnRunPressed()
     {
         string code = codeInput.text;
-        parser.RunCode(code);
+        executor.RunCode(code);
     }
 }
