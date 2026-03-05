@@ -10,3 +10,6 @@
 .vscode/
 *.csproj
 *.sln
+.plastic/
+ignore.conf
+*.plastic

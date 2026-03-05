@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 697660888660453121}
   - component: {fileID: 7697173982688697097}
   - component: {fileID: 5290967496894717668}
-  - component: {fileID: 4498666375401028716}
+  - component: {fileID: 5520697017544517901}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -406,7 +406,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4498666375401028716
+--- !u!114 &5520697017544517901
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -415,11 +415,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3170681929130828333}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd544961b846ee449af7ec96309c0ae5, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d177215b54c8a04ba6fbae3e8ddab7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   codeInput: {fileID: 7993708437258564114}
-  parser: {fileID: 0}
+  executor: {fileID: 3842653864949179245, guid: 25b66646ae35a8647a0940aaccea2b05,
+    type: 3}
 --- !u!1 &4376084670216364570
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,7 +946,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4498666375401028716}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CodeEditorUI, Assembly-CSharp
         m_MethodName: OnRunPressed
         m_Mode: 1
