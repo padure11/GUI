@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/CodeEditor/EditorStyle.uss?fileID=7433441132597879392&amp;guid=dde4f6bc80eed3440ab570c32a7f7baa&amp;type=3#EditorStyle" />
+    <ui:VisualElement class="editor-panel" style="top: 485px; right: 153px; height: 200px; width: 400px; max-width: 40%; max-height: 40%; min-width: 30%; min-height: 30%;">
+        <ui:GroupBox style="flex-direction: row; justify-content: flex-start; align-items: auto;">
+            <ui:Button name="run-button" text="▶ RUN" class="run-button" style="width: 150px; align-items: auto; height: 44px;" />
+            <ui:VisualElement style="flex-grow: 1; height: 50px; width: 50px; align-self: flex-start;" />
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="minimize-button" style="align-items: auto; justify-content: flex-start; height: 50px; width: 50px; align-self: flex-start;" />
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="close-button" style="width: 50px; white-space: nowrap; -unity-text-align: upper-center; position: relative; top: auto; left: auto; align-self: flex-start; justify-content: flex-start; flex-direction: column; height: 50px; align-items: auto; flex-wrap: nowrap;" />
+        </ui:GroupBox>
+        <ui:TextField multiline="true" name="code-input" class="code-input" style="visibility: visible; display: flex; flex-basis: auto;" />
+        <ui:VisualElement class="resize-handle" />
+    </ui:VisualElement>
+</ui:UXML>

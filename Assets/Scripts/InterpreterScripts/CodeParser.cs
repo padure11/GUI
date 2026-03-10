@@ -39,12 +39,12 @@ public class CommandParser : MonoBehaviour
         if (cmd.StartsWith("moveForward"))
         {
             int n = ParseArgument(cmd);
-            yield return StartCoroutine(player.MoveForward(n));
+            yield return StartCoroutine(player.MoveForward());
         }
         else if (cmd.StartsWith("moveBack"))
         {
             int n = ParseArgument(cmd);
-            yield return StartCoroutine(player.MoveBack(n));
+            yield return StartCoroutine(player.MoveBack());
         }
         else if (cmd == "turnLeft()")
         {

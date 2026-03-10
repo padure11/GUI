@@ -3,11 +3,12 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    private bool isMoving = false;
+    private bool isResetting = false;
+
     public float moveSpeed = 5f;
     public float rotateSpeed = 5f;
-    private bool isMoving = false;
     public Vector3 startPosition;
-    private bool isResetting = false;
 
 
     void Start()
@@ -15,7 +16,6 @@ public class PlayerController : MonoBehaviour
         startPosition = transform.position;
     }
 
-    // functie pentru update a obiectului player
     void Update()
     {
 
@@ -26,67 +26,60 @@ public class PlayerController : MonoBehaviour
 
         if (isMoving) return;
 
-        if (Input.GetKeyDown(KeyCode.W))
-            StartCoroutine(MoveForward(1));
-        if (Input.GetKeyDown(KeyCode.S))
-            StartCoroutine(MoveBack(1));
-        if (Input.GetKeyDown(KeyCode.A))
-            StartCoroutine(TurnLeft());
-        if (Input.GetKeyDown(KeyCode.D))
-            StartCoroutine(TurnRight());
-        if (Input.GetKeyDown(KeyCode.Space))
-            StartCoroutine(Jump());
+        // if (Input.GetKeyDown(KeyCode.W))
+        //     StartCoroutine(MoveForward(1));
+        // if (Input.GetKeyDown(KeyCode.S))
+        //     StartCoroutine(MoveBack(1));
+        // if (Input.GetKeyDown(KeyCode.A))
+        //     StartCoroutine(TurnLeft());
+        // if (Input.GetKeyDown(KeyCode.D))
+        //     StartCoroutine(TurnRight());
+        // if (Input.GetKeyDown(KeyCode.Space))
+        //     StartCoroutine(Jump());
     }
 
-    // functia care se excuta ca se apeleaz moveForward(nr pasi)
-    public IEnumerator MoveForward(int steps)
+    public IEnumerator MoveForward()
     {
         isMoving = true;
+        Debug.Log("Moving true");
         
-        for (int i = 0; i < steps; i++)
+        if (Physics.Raycast(transform.position, transform.forward, 2f))
         {
-            // verifică dacă e obstacol în față
-            if (Physics.Raycast(transform.position, transform.forward, 2f))
-            {
-                Debug.LogWarning("Blocked!");
-                break; // oprește mișcarea
-            }
-            
-            Vector3 target = transform.position + transform.forward*2f;
-            while (Vector3.Distance(transform.position, target) > 0.01f)
-            {
-                transform.position = Vector3.MoveTowards(
-                    transform.position, target, moveSpeed * Time.deltaTime);
-                yield return null;
-            }
-            transform.position = target;
+            Debug.LogWarning("Blocked!");
         }
         
+        Debug.Log("Player moving forward");
+        Vector3 target = transform.position + transform.forward*2f;
+
+        while (Vector3.Distance(transform.position, target) > 0.01f)
+        {
+            transform.position = Vector3.MoveTowards(
+                transform.position, target, moveSpeed * Time.deltaTime);
+            yield return null;
+        }
+        transform.position = target;
+
         isMoving = false;
+        Debug.Log("Moving false");
     }
 
-    public IEnumerator MoveBack(int steps)
+    public IEnumerator MoveBack()
     {
         isMoving = true;
-        
-        for (int i = 0; i < steps; i++)
+
+        if (Physics.Raycast(transform.position, -transform.forward, 2f))
         {
-            // verifică dacă e obstacol în spate
-            if (Physics.Raycast(transform.position, -transform.forward, 2f))
-            {
-                Debug.LogWarning("Blocked!");
-                break;
-            }
-            
-            Vector3 target = transform.position - transform.forward*2f;
-            while (Vector3.Distance(transform.position, target) > 0.01f)
-            {
-                transform.position = Vector3.MoveTowards(
-                    transform.position, target, moveSpeed * Time.deltaTime);
-                yield return null;
-            }
-            transform.position = target;
+            Debug.LogWarning("Blocked!");
         }
+        
+        Vector3 target = transform.position - transform.forward*2f;
+        while (Vector3.Distance(transform.position, target) > 0.01f)
+        {
+            transform.position = Vector3.MoveTowards(
+                transform.position, target, moveSpeed * Time.deltaTime);
+            yield return null;
+        }
+        transform.position = target;
         
         isMoving = false;
     }
@@ -101,7 +94,7 @@ public class PlayerController : MonoBehaviour
                 transform.rotation, targetRotation, rotateSpeed * 90f * Time.deltaTime);
             yield return null;
         }
-        transform.rotation = targetRotation; // snap exact
+        transform.rotation = targetRotation;
         isMoving = false;
     }
 
@@ -123,15 +116,13 @@ public class PlayerController : MonoBehaviour
     {
         isMoving = true;
         
-        // detectează blocul din față cu Raycast
         Vector3 forwardPos = transform.position + transform.forward*2f;
-        float targetY = transform.position.y; // rămâne la aceeași înălțime default
+        float targetY = transform.position.y;
         
-        // verifică dacă e bloc la același nivel sau mai sus
         RaycastHit hit;
         if (Physics.Raycast(forwardPos + Vector3.up * 2, Vector3.down, out hit, 3f))
         {
-            targetY = hit.point.y + 0.5f; // se urcă pe suprafața blocului
+            targetY = hit.point.y + 0.5f;
         }
         
         Vector3 targetPos = new Vector3(forwardPos.x, targetY, forwardPos.z);
@@ -159,7 +150,6 @@ public class PlayerController : MonoBehaviour
         float duration = 0.3f;
         Vector3 originalScale = Vector3.one;
 
-        // micșorează
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
@@ -168,10 +158,8 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        // reset poziție
         transform.position = startPosition;
 
-        // mărește înapoi
         elapsed = 0f;
         while (elapsed < duration)
         {
@@ -183,6 +171,67 @@ public class PlayerController : MonoBehaviour
 
         transform.localScale = originalScale;
         isResetting = false;
+        isMoving = false;
+    }
+
+    public IEnumerator Push()
+    {
+        isMoving = true;
+        
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+        {
+            // Verifică dacă obiectul e pushable
+            if (hit.collider.CompareTag("PushableCrate"))
+            {
+                Vector3 pushDirection = transform.forward;
+                Vector3 objectPos = hit.transform.position;
+                Vector3 targetPos = objectPos + pushDirection * 2f;
+                
+                // Verifică dacă e loc în spatele obiectului
+                if (!Physics.Raycast(objectPos, pushDirection, 2f))
+                {
+                    // Verifică dacă e podea sub poziția țintă
+                    if (Physics.Raycast(targetPos + Vector3.up, Vector3.down, 3f))
+                    {
+                        // Mută obiectul smooth
+                        Transform obj = hit.transform;
+                        Vector3 startPos = obj.position;
+                        float elapsed = 0f;
+                        float duration = 0.5f;
+                        
+                        while (elapsed < duration)
+                        {
+                            elapsed += Time.deltaTime;
+                            float t = elapsed / duration;
+                            obj.position = Vector3.Lerp(startPos, targetPos, t);
+                            yield return null;
+                        }
+                        obj.position = targetPos;
+
+                        Debug.Log("Object pushed");
+                    }
+                    else
+                    {
+                        Debug.Log("No floor behind object!");
+                    }
+                }
+                else
+                {
+                    Debug.Log("No space to push!");
+                }
+            }
+            else
+            {
+                Debug.Log("Object is not pushable!");
+            }
+        }
+        else
+        {
+            Debug.Log("Nothing to push!");
+        }
+        
+        yield return new WaitForSeconds(0.1f);
         isMoving = false;
     }
 }

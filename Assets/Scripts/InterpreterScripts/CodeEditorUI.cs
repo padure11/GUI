@@ -1,14 +1,28 @@
 using UnityEngine;
-using TMPro;
+using UnityEngine.UIElements;
 
 public class CodeEditorUI : MonoBehaviour
 {
-    public TMP_InputField codeInput;
     public CommandExecutor executor;
+    
+    private TextField codeInput;
+    private Button runButton;
+    private ScrollView consoleScroll;
 
-    public void OnRunPressed()
+    void OnEnable()
     {
-        string code = codeInput.text;
+        var root = GetComponent<UIDocument>().rootVisualElement;
+
+        codeInput = root.Q<TextField>("code-input");
+        runButton = root.Q<Button>("run-button");
+        consoleScroll = root.Q<ScrollView>("console-scroll");
+
+        runButton.clicked += OnRunPressed;
+    }
+
+    void OnRunPressed()
+    {
+        string code = codeInput.value;
         executor.RunCode(code);
     }
 }
