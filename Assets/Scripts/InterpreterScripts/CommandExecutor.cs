@@ -36,10 +36,10 @@ public class CommandExecutor : MonoBehaviour
         switch (cmd.type)
         {
             case "moveForward":
-                yield return StartCoroutine(player.MoveForward(1));
+                yield return StartCoroutine(player.MoveForward());
                 break;
             case "moveBack":
-                yield return StartCoroutine(player.MoveBack(1));
+                yield return StartCoroutine(player.MoveBack());
                 break;
             case "turnLeft":
                 yield return StartCoroutine(player.TurnLeft());
@@ -57,9 +57,9 @@ public class CommandExecutor : MonoBehaviour
             // case "drop":
             //     yield return StartCoroutine(player.Drop());
             //     break;
-            // case "push":
-            //     yield return StartCoroutine(player.Push());
-            //     break;
+            case "push":
+                yield return StartCoroutine(player.Push());
+                break;
             // case "press":
             //     yield return StartCoroutine(player.Press());
             //     break;

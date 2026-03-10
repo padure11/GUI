@@ -1,0 +1,93 @@
+.editor-panel {
+    background-color: rgba(26, 29, 35, 0.95);
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: rgb(42, 47, 58);
+    padding: 12px;
+    width: 500px;
+    height: 700px;
+    position: absolute;
+    left: auto;
+    right: 10px;
+    top: 10px;
+}
+
+.editor-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background-color: rgb(36, 40, 48);
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.player-label {
+    color: rgb(255, 107, 44);
+    font-size: 16px;
+    -unity-font-style: bold;
+    letter-spacing: 3px;
+}
+
+.run-button {
+    background-color: rgb(255, 107, 44);
+    border-radius: 8px;
+    border-width: 0;
+    padding: 14px;
+    margin-bottom: 8px;
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    -unity-font-style: bold;
+    letter-spacing: 3px;
+    -unity-text-align: middle-center;
+}
+
+.run-button:hover {
+    background-color: rgb(255, 138, 80);
+}
+
+.run-button:active {
+    background-color: rgb(232, 93, 38);
+}
+
+.code-input {
+    flex-grow: 1;
+    background-color: rgb(18, 21, 26);
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: rgb(42, 47, 58);
+    padding: 0;
+    margin: 0;
+}
+
+.code-input:focus {
+    border-color: rgb(255, 107, 44);
+}
+
+.code-input > .unity-text-field__input {
+    background-color: rgb(18, 21, 26);
+    color: rgb(168, 219, 143);
+    font-size: 14px;
+    border-width: 0;
+    padding: 12px;
+    -unity-text-align: upper-left;
+    white-space: normal;
+}
+
+.code-input > .unity-text-field__input:focus {
+    border-color: rgb(255, 107, 44);
+}
+
+.resize-handle {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: rgb(80, 88, 102);
+    border-radius: 0 0 8px 0;
+}
+
+.resize-handle:hover {
+    background-color: rgb(255, 107, 44);
+}
