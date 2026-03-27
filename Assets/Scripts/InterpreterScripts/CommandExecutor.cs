@@ -16,23 +16,34 @@ public class CommandExecutor : MonoBehaviour
 
         List<Token> tokens = lexer.Tokenize(code);
         List<Command> commands = parser.Parse(tokens);
-        StartCoroutine(Execute(commands));
+        StartCoroutine(Execute(commands, true));
     }
 
-    private IEnumerator Execute(List<Command> commands)
+    private IEnumerator Execute(List<Command> commands, bool isRoot = false)
     {
-        isRunning = true;
+        if (isRoot) {
+            isRunning = true;
+        }
 
         foreach (Command cmd in commands)
         {
             yield return StartCoroutine(ExecuteCommand(cmd));
         }
 
-        isRunning = false;
+        if(isRoot) {
+            isRunning = false;
+            LevelManager.Instance.OnCodeFinished();
+        }
     }
 
     private IEnumerator ExecuteCommand(Command cmd)
     {
+        
+        while (player.IsMoving())
+        {
+            yield return null;
+        }
+
         switch (cmd.type)
         {
             case "moveForward":
@@ -50,19 +61,12 @@ public class CommandExecutor : MonoBehaviour
             case "jump":
                 yield return StartCoroutine(player.Jump());
                 break;
-
-            // case "grab":
-            //     yield return StartCoroutine(player.Grab());
-            //     break;
-            // case "drop":
-            //     yield return StartCoroutine(player.Drop());
-            //     break;
             case "push":
                 yield return StartCoroutine(player.Push());
                 break;
-            // case "press":
-            //     yield return StartCoroutine(player.Press());
-            //     break;
+            case "press":
+                yield return StartCoroutine(player.Press());
+                break;
 
             case "wait":
                 yield return new WaitForSeconds(0.5f);
@@ -71,7 +75,7 @@ public class CommandExecutor : MonoBehaviour
             case "repeat":
                 for (int i = 0; i < cmd.argument; i++)
                 {
-                    yield return StartCoroutine(Execute(cmd.body));
+                    yield return StartCoroutine(Execute(cmd.body, false));
                 }
                 break;
 
@@ -98,28 +102,4 @@ public class CommandExecutor : MonoBehaviour
                 break;
         }
     }
-
-    // private bool CheckCondition(string condition)
-    // {
-    //     switch (condition)
-    //     {
-    //         case "obstacleAhead":
-    //             return player.IsObstacleAhead();
-    //         case "nothingAhead":
-    //             return !player.IsObstacleAhead();
-    //         case "doorClosed":
-    //             return player.IsDoorClosed();
-    //         case "doorOpen":
-    //             return !player.IsDoorClosed();
-    //         case "holding":
-    //             return player.IsHolding();
-    //         case "notHolding":
-    //             return !player.IsHolding();
-    //         case "atEdge":
-    //             return player.IsAtEdge();
-    //         default:
-    //             Debug.LogWarning("Unknown condition: " + condition);
-    //             return false;
-    //     }
-    // }
 }

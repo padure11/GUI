@@ -7,6 +7,7 @@ public class FinishZone : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Level Complete!");
+            LevelManager.Instance.CompleteLevel();
         }
     }
 }

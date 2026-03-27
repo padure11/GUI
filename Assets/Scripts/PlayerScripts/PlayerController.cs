@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     public float rotateSpeed = 5f;
     public Vector3 startPosition;
 
-
     void Start()
     {
         startPosition = transform.position;
@@ -25,121 +24,150 @@ public class PlayerController : MonoBehaviour
         }
 
         if (isMoving) return;
-
-        // if (Input.GetKeyDown(KeyCode.W))
-        //     StartCoroutine(MoveForward(1));
-        // if (Input.GetKeyDown(KeyCode.S))
-        //     StartCoroutine(MoveBack(1));
-        // if (Input.GetKeyDown(KeyCode.A))
-        //     StartCoroutine(TurnLeft());
-        // if (Input.GetKeyDown(KeyCode.D))
-        //     StartCoroutine(TurnRight());
-        // if (Input.GetKeyDown(KeyCode.Space))
-        //     StartCoroutine(Jump());
     }
 
-    public IEnumerator MoveForward()
-    {
+ public IEnumerator MoveForward() {
+        Debug.Log("isMoving = " + isMoving);
         isMoving = true;
-        Debug.Log("Moving true");
-        
-        if (Physics.Raycast(transform.position, transform.forward, 2f))
+        Debug.Log("isMoving = " + isMoving);
+
+        if(Physics.Raycast(transform.position, transform.forward, 2f))
         {
             Debug.LogWarning("Blocked!");
+            isMoving = false;
+            yield break;
         }
         
         Debug.Log("Player moving forward");
-        Vector3 target = transform.position + transform.forward*2f;
 
-        while (Vector3.Distance(transform.position, target) > 0.01f)
-        {
-            transform.position = Vector3.MoveTowards(
-                transform.position, target, moveSpeed * Time.deltaTime);
+        Vector3 targetPosition = transform.position + transform.forward * 2f;
+
+        while (targetPosition != transform.position) {
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
             yield return null;
         }
-        transform.position = target;
 
+        transform.position = targetPosition;
+
+        Debug.Log("isMoving = " + isMoving);
         isMoving = false;
-        Debug.Log("Moving false");
+        Debug.Log("isMoving = " + isMoving);
+        Debug.Log("Player pos: " + transform.position);
     }
 
-    public IEnumerator MoveBack()
-    {
+    public IEnumerator MoveBack() {
+        Debug.Log("isMoving = " + isMoving);
         isMoving = true;
+        Debug.Log("isMoving = " + isMoving);
 
-        if (Physics.Raycast(transform.position, -transform.forward, 2f))
+        if(Physics.Raycast(transform.position, -transform.forward, 2f))
         {
             Debug.LogWarning("Blocked!");
+            isMoving = false;
+            yield break;
         }
-        
-        Vector3 target = transform.position - transform.forward*2f;
-        while (Vector3.Distance(transform.position, target) > 0.01f)
-        {
-            transform.position = Vector3.MoveTowards(
-                transform.position, target, moveSpeed * Time.deltaTime);
+
+        Debug.Log("Player moving back");
+
+        Vector3 targetPosition = transform.position - transform.forward * 2f;
+
+        while (targetPosition != transform.position) {
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
             yield return null;
         }
-        transform.position = target;
+
+        transform.position = targetPosition;
         
+        Debug.Log("isMoving = " + isMoving);
         isMoving = false;
+        Debug.Log("isMoving = " + isMoving);
+        Debug.Log("Player pos: " + transform.position);
     }
 
-    public IEnumerator TurnLeft()
-    {
+    public IEnumerator TurnLeft() {
+        Debug.Log("isMoving = " + isMoving);
         isMoving = true;
+        Debug.Log("isMoving = " + isMoving);
+
+        Debug.Log("Player turning left");
+
         Quaternion targetRotation = transform.rotation * Quaternion.Euler(0, -90f, 0);
+
         while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
         {
             transform.rotation = Quaternion.RotateTowards(
                 transform.rotation, targetRotation, rotateSpeed * 90f * Time.deltaTime);
             yield return null;
         }
+
         transform.rotation = targetRotation;
+
+        Debug.Log("isMoving = " + isMoving);
         isMoving = false;
+        Debug.Log("isMoving = " + isMoving);
+        Debug.Log("Player rot: " + transform.rotation.eulerAngles);
     }
 
-    public IEnumerator TurnRight()
-    {
+    public IEnumerator TurnRight() {
+        Debug.Log("isMoving = " + isMoving);
         isMoving = true;
+        Debug.Log("isMoving = " + isMoving);
+
+        Debug.Log("Player turning right");
+
         Quaternion targetRotation = transform.rotation * Quaternion.Euler(0, 90f, 0);
+
         while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
         {
             transform.rotation = Quaternion.RotateTowards(
                 transform.rotation, targetRotation, rotateSpeed * 90f * Time.deltaTime);
             yield return null;
         }
+
         transform.rotation = targetRotation;
+
+        Debug.Log("isMoving = " + isMoving);
         isMoving = false;
+        Debug.Log("isMoving = " + isMoving);
+        Debug.Log("Player rot: " + transform.rotation.eulerAngles);
     }
 
-    public IEnumerator Jump()
-    {
+    public IEnumerator Jump() {
+        Debug.Log("isMoving = " + isMoving);
         isMoving = true;
-        
-        Vector3 forwardPos = transform.position + transform.forward*2f;
-        float targetY = transform.position.y;
-        
+        Debug.Log("isMoving = " + isMoving);
+
+        Vector3 forwardTargetPosition = transform.position + transform.forward * 2f;
+        Vector3 targetPosition = transform.position;
+
         RaycastHit hit;
-        if (Physics.Raycast(forwardPos + Vector3.up * 2, Vector3.down, out hit, 3f))
-        {
-            targetY = hit.point.y + 0.5f;
+        if (Physics.Raycast(forwardTargetPosition + Vector3.up * 2f * 2, Vector3.down, out hit, 2f * 2)) {
+            targetPosition = new Vector3(forwardTargetPosition.x, Mathf.Round(hit.point.y + 1f), forwardTargetPosition.z);
+            Debug.Log("Jump on to: " + targetPosition);
         }
-        
-        Vector3 targetPos = new Vector3(forwardPos.x, targetY, forwardPos.z);
-        Vector3 startPos = transform.position;
-        float elapsed = 0f;
-        float duration = 0.3f;
-        
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float t = elapsed / duration;
-            transform.position = Vector3.Lerp(startPos, targetPos, t);
-            yield return null;
+        else {
+            Vector3 gap = transform.position + transform.forward * 2f;
+
+            if (Physics.Raycast(gap + Vector3.up * 4f, Vector3.down, out hit, 4f)) {
+                targetPosition = new Vector3(gap.x, Mathf.Round(hit.point.y + 1f), gap.z);
+                Debug.Log("Jump over to: " + targetPosition);
+            }
+            else {
+                Debug.LogWarning("Can't jump");
+                Debug.Log("isMoving = " + isMoving);
+                isMoving = false;
+                Debug.Log("isMoving = " + isMoving);
+                Debug.Log("Player pos: " + transform.position);
+                yield break;
+            }
         }
-        
-        transform.position = targetPos;
+
+        transform.position = targetPosition;
+
+        Debug.Log("isMoving = " + isMoving);
         isMoving = false;
+        Debug.Log("isMoving = " + isMoving);
+        Debug.Log("Player pos: " + transform.position);
     }
     
     IEnumerator ResetWithAnimation()
@@ -233,5 +261,28 @@ public class PlayerController : MonoBehaviour
         
         yield return new WaitForSeconds(0.1f);
         isMoving = false;
+    }
+
+    public IEnumerator Press() {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+        {
+            Debug.Log("Hit: " + hit.collider.gameObject.name);
+
+            PressButton button = hit.collider.GetComponent<PressButton>();
+            if (button != null)
+            {
+                button.Activate();
+                yield return new WaitForSeconds(1.5f);
+            }
+        }
+
+        yield return null;
+    }
+
+    public bool IsMoving()
+    {
+        return isMoving;
     }
 }
