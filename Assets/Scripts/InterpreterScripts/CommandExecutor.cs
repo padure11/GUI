@@ -9,6 +9,11 @@ public class CommandExecutor : MonoBehaviour
     private Lexer lexer = new Lexer();
     private Parser parser = new Parser();
     private bool isRunning = false;
+
+    public bool IsRunning()
+    {
+        return isRunning;
+    }
     
     public void RunCode(string code)
     {
@@ -32,7 +37,6 @@ public class CommandExecutor : MonoBehaviour
 
         if(isRoot) {
             isRunning = false;
-            LevelManager.Instance.OnCodeFinished();
         }
     }
 

@@ -1,13 +1,11 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using Unity.Netcode;
 
 public class CodeEditorUI : MonoBehaviour
 {
-    public CommandExecutor executor;
-    
     private TextField codeInput;
     private Button runButton;
-    private ScrollView consoleScroll;
 
     void OnEnable()
     {
@@ -15,7 +13,6 @@ public class CodeEditorUI : MonoBehaviour
 
         codeInput = root.Q<TextField>("code-input");
         runButton = root.Q<Button>("run-button");
-        consoleScroll = root.Q<ScrollView>("console-scroll");
 
         runButton.clicked += OnRunPressed;
     }
@@ -23,6 +20,9 @@ public class CodeEditorUI : MonoBehaviour
     void OnRunPressed()
     {
         string code = codeInput.value;
-        executor.RunCode(code);
+
+        int playerIndex = NetworkManager.Singleton.IsHost ? 0 : 1;
+
+        GameSessionManager.Instance.SubmitCodeServerRpc(code, playerIndex);
     }
 }
