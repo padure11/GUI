@@ -6,6 +6,8 @@ TagManager:
   tags:
   - PushableCrate
   - PressableButton
+  - Robot1
+  - Robot2
   layers:
   - Default
   - TransparentFX

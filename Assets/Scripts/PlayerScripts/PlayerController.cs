@@ -53,6 +53,8 @@ public class PlayerController : MonoBehaviour
         isMoving = false;
         Debug.Log("isMoving = " + isMoving);
         Debug.Log("Player pos: " + transform.position);
+
+        Debug.Log("MOVE FORWARD");
     }
 
     public IEnumerator MoveBack() {
@@ -82,6 +84,8 @@ public class PlayerController : MonoBehaviour
         isMoving = false;
         Debug.Log("isMoving = " + isMoving);
         Debug.Log("Player pos: " + transform.position);
+
+        Debug.Log("MOVE BACKWARD");
     }
 
     public IEnumerator TurnLeft() {
@@ -106,6 +110,8 @@ public class PlayerController : MonoBehaviour
         isMoving = false;
         Debug.Log("isMoving = " + isMoving);
         Debug.Log("Player rot: " + transform.rotation.eulerAngles);
+
+        Debug.Log("TURNED LEFT");
     }
 
     public IEnumerator TurnRight() {
@@ -130,6 +136,8 @@ public class PlayerController : MonoBehaviour
         isMoving = false;
         Debug.Log("isMoving = " + isMoving);
         Debug.Log("Player rot: " + transform.rotation.eulerAngles);
+
+        Debug.Log("TURNED RIGHT");
     }
 
     public IEnumerator Jump() {
@@ -168,6 +176,9 @@ public class PlayerController : MonoBehaviour
         isMoving = false;
         Debug.Log("isMoving = " + isMoving);
         Debug.Log("Player pos: " + transform.position);
+
+
+        Debug.Log("Jumped");
     }
     
     IEnumerator ResetWithAnimation()
@@ -261,6 +272,8 @@ public class PlayerController : MonoBehaviour
         
         yield return new WaitForSeconds(0.1f);
         isMoving = false;
+
+        Debug.Log("Pushed");
     }
 
     public IEnumerator Press() {
@@ -279,6 +292,8 @@ public class PlayerController : MonoBehaviour
         }
 
         yield return null;
+
+        Debug.Log("Pressed");
     }
 
     public bool IsMoving()
