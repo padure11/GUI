@@ -42,11 +42,9 @@ public class GameSessionManager : NetworkBehaviour
     {
         isExecuting = true;
 
-        // Parsează ambele coduri în liste de comenzi
         List<Command> commands1 = parser.Parse(lexer.Tokenize(code1));
         List<Command> commands2 = parser.Parse(lexer.Tokenize(code2));
 
-        // Flatten comenzile (inclusiv repeat) în liste simple
         List<string> flat1 = FlattenCommands(commands1);
         List<string> flat2 = FlattenCommands(commands2);
 
@@ -57,10 +55,10 @@ public class GameSessionManager : NetworkBehaviour
             string cmd1 = i < flat1.Count ? flat1[i] : "none";
             string cmd2 = i < flat2.Count ? flat2[i] : "none";
 
-            // Trimite comanda la toți clienții
             ExecuteStepClientRpc(cmd1, cmd2);
 
-            // Așteaptă să termine ambii roboții
+            // Așteaptă puțin ca ClientRpc să ajungă și să înceapă execuția
+            yield return new WaitForSeconds(0.2f);
             yield return new WaitUntil(() => !robot1.IsMoving() && !robot2.IsMoving());
             yield return new WaitForSeconds(0.1f);
         }

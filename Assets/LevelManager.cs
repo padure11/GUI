@@ -28,6 +28,8 @@ public class LevelManager : MonoBehaviour
 
     public void ResetLevel()
     {
+        FinishZone.ResetFinish();
+        
         if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsServer)
         {
             NetworkManager.Singleton.SceneManager.LoadScene(
@@ -54,5 +56,10 @@ public class LevelManager : MonoBehaviour
         {
             Debug.Log("Ai terminat toate nivelele!");
         }
+    }
+
+    public bool IsCompleted()
+    {
+        return levelCompleted;
     }
 }
