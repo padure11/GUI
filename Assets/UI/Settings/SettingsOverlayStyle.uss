@@ -1,0 +1,75 @@
+.settings-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(10, 12, 16, 0.75);
+    align-items: center;
+    justify-content: center;
+}
+
+.settings-panel {
+    width: 320px;
+    padding: 24px;
+    background-color: rgb(26, 29, 35);
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: rgb(74, 158, 255);
+    align-items: stretch;
+}
+
+.settings-title {
+    color: rgb(255, 107, 44);
+    font-size: 28px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    letter-spacing: 6px;
+    margin-bottom: 20px;
+}
+
+.settings-button {
+    height: 48px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    font-size: 16px;
+    color: rgb(240, 240, 240);
+    background-color: rgb(40, 44, 56);
+    border-color: rgb(74, 158, 255);
+    border-width: 2px;
+    border-radius: 6px;
+    -unity-font-style: bold;
+}
+
+.settings-button:hover {
+    background-color: rgb(74, 158, 255);
+    color: rgb(20, 22, 28);
+}
+
+.settings-button-danger {
+    border-color: rgb(220, 80, 80);
+}
+
+.settings-button-danger:hover {
+    background-color: rgb(220, 80, 80);
+    color: rgb(255, 255, 255);
+}
+
+.settings-volume-row {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
+
+.settings-volume-label {
+    width: 60px;
+    color: rgb(200, 210, 220);
+    font-size: 13px;
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+}
+
+.settings-slider {
+    flex-grow: 1;
+}

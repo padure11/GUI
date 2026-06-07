@@ -1,0 +1,21 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="SettingsOverlayStyle.uss" />
+    <ui:VisualElement name="settings-overlay" class="settings-overlay" picking-mode="Position">
+        <ui:VisualElement class="settings-panel">
+            <ui:Label text="PAUSED" class="settings-title" />
+
+            <ui:VisualElement class="settings-volume-row">
+                <ui:Label text="Music" class="settings-volume-label" />
+                <ui:Slider name="music-slider" low-value="0" high-value="1" class="settings-slider" />
+            </ui:VisualElement>
+            <ui:VisualElement class="settings-volume-row">
+                <ui:Label text="SFX" class="settings-volume-label" />
+                <ui:Slider name="sfx-slider" low-value="0" high-value="1" class="settings-slider" />
+            </ui:VisualElement>
+
+            <ui:Button name="resume-button" text="Resume" class="settings-button" />
+            <ui:Button name="leave-button" text="Back to Menu" class="settings-button" />
+            <ui:Button name="quit-button" text="Quit Game" class="settings-button settings-button-danger" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

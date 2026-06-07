@@ -25,12 +25,57 @@ public class RTSCamera : MonoBehaviour
     [Header("Drag")]
     public float dragSpeed = 1f;
 
+    [Header("Follow")]
+    public KeyCode recenterKey = KeyCode.F;
+    public float followSmoothing = 6f;
+
+    [Header("Per-player start view (camera local transform)")]
+    public Vector3 hostCameraPos = new Vector3(-463.32f, -252.15f, 192.19f);
+    public Vector3 hostCameraRot = new Vector3(45f, 120f, 0f);
+    public Vector3 clientCameraPos = new Vector3(-463.32f, -252.15f, 158.44f);
+    public Vector3 clientCameraRot = new Vector3(45f, 45f, 0f);
+    private Transform followTarget;
+    private bool followEngaged = false;
+
     private Vector3 dragOrigin;
     private bool isDragging = false;
 
+    public void FocusOn(Transform target)
+    {
+        if (target == null) return;
+        pivotTarget = target;
+        followTarget = target;
+    }
+
+    // Places the camera at the per-player starting view. Called once at game start.
+    public void SetStartView(bool isHost)
+    {
+        if (cameraTransform == null) return;
+        cameraTransform.localPosition = isHost ? hostCameraPos : clientCameraPos;
+        cameraTransform.localRotation = Quaternion.Euler(isHost ? hostCameraRot : clientCameraRot);
+    }
+
+    // Sets the point that right-click rotation orbits around (the local robot).
+    // Does NOT make the camera follow — only affects rotation.
+    public void SetPivot(Transform target)
+    {
+        pivotTarget = target;
+    }
+
+    public void Recenter()
+    {
+        if (followTarget == null) return;
+        Vector3 rigPos = transform.position;
+        rigPos.x = followTarget.position.x;
+        rigPos.z = followTarget.position.z;
+        transform.position = rigPos;
+        followEngaged = true;
+        targetRotationY = transform.eulerAngles.y;
+    }
+
     void Update()
     {
-        if (RTSCameraFocus.IsPointerOverUI)
+        if (CodeEditorUI.BlocksCamera)
         {
             isDragging = false;
             isRotating = false;
@@ -41,6 +86,23 @@ public class RTSCamera : MonoBehaviour
         HandleDrag();
         HandleZoom();
         HandleRotation();
+        HandleRecenter();
+        HandleAutoFollow();
+    }
+
+    void HandleRecenter()
+    {
+        if (Input.GetKeyDown(recenterKey))
+            Recenter();
+    }
+
+    void HandleAutoFollow()
+    {
+        if (!followEngaged || followTarget == null) return;
+        if (isDragging) { followEngaged = false; return; }
+
+        Vector3 desired = new Vector3(followTarget.position.x, transform.position.y, followTarget.position.z);
+        transform.position = Vector3.Lerp(transform.position, desired, Time.deltaTime * followSmoothing);
     }
 
     // void HandleEdgeScroll()

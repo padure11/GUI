@@ -1,0 +1,38 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="MainMenuStyle.uss" />
+    <ui:VisualElement name="menu-root" class="menu-root">
+        <ui:Label text="CODE BOTS" class="title" />
+        <ui:Label text="Factory Breakout" class="subtitle" />
+
+        <ui:VisualElement class="button-stack">
+            <ui:Button name="host-button" text="Host Game" class="menu-button" />
+            <ui:TextField name="join-code-input" label="Join Code" class="join-input" />
+            <ui:Button name="join-button" text="Join Game" class="menu-button" />
+            <ui:Button name="settings-button" text="Settings" class="menu-button" />
+            <ui:Button name="quit-button" text="Quit" class="menu-button menu-button-danger" />
+        </ui:VisualElement>
+
+        <ui:VisualElement class="code-row">
+            <ui:Label name="join-code-display" text="" class="join-code-display" />
+            <ui:Button name="copy-code-button" text="Copy" class="copy-button" />
+        </ui:VisualElement>
+        <ui:Label name="status-label" text="Connecting..." class="status" />
+
+        <ui:VisualElement name="settings-panel" class="mm-settings-overlay">
+            <ui:VisualElement class="mm-settings-panel">
+                <ui:Label text="SETTINGS" class="mm-settings-title" />
+
+                <ui:VisualElement class="mm-volume-row">
+                    <ui:Label text="Music" class="mm-volume-label" />
+                    <ui:Slider name="music-slider" low-value="0" high-value="1" class="mm-slider" />
+                </ui:VisualElement>
+                <ui:VisualElement class="mm-volume-row">
+                    <ui:Label text="SFX" class="mm-volume-label" />
+                    <ui:Slider name="sfx-slider" low-value="0" high-value="1" class="mm-slider" />
+                </ui:VisualElement>
+
+                <ui:Button name="settings-close-button" text="Close" class="menu-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
