@@ -8,10 +8,19 @@ public class Try : MonoBehaviour
     public Vector3 spawnPosition;
     public Vector3 spawnRotation;
 
+    private bool hasSpawned = false;
+
     void OnTriggerEnter(Collider other) {
+        if (hasSpawned) return;
         if (other.CompareTag("PushableCrate")) {
             Debug.Log(other.name + " is on the floor tile");
-            Instantiate(objectToSpawn, spawnPosition, Quaternion.Euler(spawnRotation));
+            LevelSpawnTracker.Spawn(objectToSpawn, spawnPosition, Quaternion.Euler(spawnRotation));
+            hasSpawned = true;
         }
-    }   
+    }
+
+    public void ResetSpawnState()
+    {
+        hasSpawned = false;
+    }
 }

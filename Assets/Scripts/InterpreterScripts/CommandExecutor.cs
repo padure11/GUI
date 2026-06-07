@@ -5,23 +5,38 @@ using System.Collections.Generic;
 public class CommandExecutor : MonoBehaviour
 {
     public PlayerController player;
-    
+    public int maxCallDepth = 100;
+
     private Lexer lexer = new Lexer();
     private Parser parser = new Parser();
     private bool isRunning = false;
+    private Dictionary<string, List<Command>> functions = new Dictionary<string, List<Command>>();
+    private int callDepth = 0;
 
     public bool IsRunning()
     {
         return isRunning;
     }
-    
+
     public void RunCode(string code)
     {
         if (isRunning) return;
 
         List<Token> tokens = lexer.Tokenize(code);
         List<Command> commands = parser.Parse(tokens);
-        StartCoroutine(Execute(commands, true));
+
+        functions.Clear();
+        callDepth = 0;
+        List<Command> mainBody = new List<Command>();
+        foreach (var cmd in commands)
+        {
+            if (cmd.type == "function_def" && !string.IsNullOrEmpty(cmd.name))
+                functions[cmd.name] = cmd.body;
+            else
+                mainBody.Add(cmd);
+        }
+
+        StartCoroutine(Execute(mainBody, true));
     }
 
     private IEnumerator Execute(List<Command> commands, bool isRoot = false)
@@ -71,6 +86,9 @@ public class CommandExecutor : MonoBehaviour
             case "press":
                 yield return StartCoroutine(player.Press());
                 break;
+            case "pull":
+                yield return StartCoroutine(player.Pull());
+                break;
 
             case "wait":
                 yield return new WaitForSeconds(0.5f);
@@ -81,6 +99,9 @@ public class CommandExecutor : MonoBehaviour
                 {
                     yield return StartCoroutine(Execute(cmd.body, false));
                 }
+                break;
+
+            case "function_def":
                 break;
 
             // case "while":
@@ -102,7 +123,21 @@ public class CommandExecutor : MonoBehaviour
             //     break;
 
             default:
-                Debug.LogWarning("Unknown command: " + cmd.type);
+                if (functions.TryGetValue(cmd.type, out var body))
+                {
+                    if (callDepth >= maxCallDepth)
+                    {
+                        Debug.LogError("Function recursion limit reached (" + maxCallDepth + ") at '" + cmd.type + "'");
+                        break;
+                    }
+                    callDepth++;
+                    yield return StartCoroutine(Execute(body, false));
+                    callDepth--;
+                }
+                else
+                {
+                    Debug.LogWarning("Unknown command: " + cmd.type);
+                }
                 break;
         }
     }

@@ -1,13 +1,63 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/CodeEditor/EditorStyle.uss?fileID=7433441132597879392&amp;guid=dde4f6bc80eed3440ab570c32a7f7baa&amp;type=3#EditorStyle" />
-    <ui:VisualElement class="editor-panel" style="top: 485px; right: 153px; height: 200px; width: 400px; max-width: 40%; max-height: 40%; min-width: 30%; min-height: 30%;">
-        <ui:GroupBox style="flex-direction: row; justify-content: flex-start; align-items: auto;">
-            <ui:Button name="run-button" text="▶ RUN" class="run-button" style="width: 150px; align-items: auto; height: 44px;" />
-            <ui:VisualElement style="flex-grow: 1; height: 50px; width: 50px; align-self: flex-start;" />
-            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="minimize-button" style="align-items: auto; justify-content: flex-start; height: 50px; width: 50px; align-self: flex-start;" />
-            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="close-button" style="width: 50px; white-space: nowrap; -unity-text-align: upper-center; position: relative; top: auto; left: auto; align-self: flex-start; justify-content: flex-start; flex-direction: column; height: 50px; align-items: auto; flex-wrap: nowrap;" />
-        </ui:GroupBox>
-        <ui:TextField multiline="true" name="code-input" class="code-input" style="visibility: visible; display: flex; flex-basis: auto;" />
-        <ui:VisualElement class="resize-handle" />
+    <ui:VisualElement name="editor-panel" class="editor-panel">
+        <ui:VisualElement name="title-bar" class="title-bar">
+            <ui:Label text="CODE EDITOR" class="title-text" />
+            <ui:VisualElement name="status-dot" class="status-dot status-dot-idle" />
+            <ui:Label name="status-text" text="idle" class="status-text" />
+            <ui:VisualElement class="title-spacer" />
+            <ui:Button name="help-button" text="?" class="title-button" tooltip="Commands cheat sheet" />
+            <ui:Button name="minimize-button" text="—" class="title-button" tooltip="Minimize" />
+            <ui:Button name="close-button" text="X" class="title-button title-button-close" tooltip="Close" />
+        </ui:VisualElement>
+
+        <ui:VisualElement name="editor-content" class="editor-content">
+            <ui:Button name="run-button" text="▶ RUN" class="run-button" />
+            <ui:TextField multiline="true" name="code-input" class="code-input" />
+        </ui:VisualElement>
+
+        <ui:VisualElement name="resize-handle" class="resize-handle" />
+
+        <ui:VisualElement name="cheatsheet" class="cheatsheet">
+            <ui:VisualElement class="cheat-section section-movement">
+                <ui:Label text="MOVEMENT" class="cheatsheet-section" />
+                <ui:Label text="moveForward()    advance 1 tile" class="cheatsheet-cmd" />
+                <ui:Label text="moveBack()       reverse 1 tile" class="cheatsheet-cmd" />
+                <ui:Label text="turnLeft()       rotate 90° left" class="cheatsheet-cmd" />
+                <ui:Label text="turnRight()      rotate 90° right" class="cheatsheet-cmd" />
+                <ui:Label text="jump()           jump forward / over gap" class="cheatsheet-cmd" />
+            </ui:VisualElement>
+
+            <ui:VisualElement class="cheat-section section-push">
+                <ui:Label text="PUSH" class="cheatsheet-section" />
+                <ui:Label text="push()           push crate ahead onto a plate" class="cheatsheet-cmd" />
+            </ui:VisualElement>
+
+            <ui:VisualElement class="cheat-section section-pull">
+                <ui:Label text="PULL / LEVER" class="cheatsheet-section" />
+                <ui:Label text="pull()           pull lever ahead (toggles wired hazards)" class="cheatsheet-cmd" />
+            </ui:VisualElement>
+
+            <ui:VisualElement class="cheat-section section-portal">
+                <ui:Label text="TELEPORTER" class="cheatsheet-section" />
+                <ui:Label text="Step into a portal and you are teleported" class="cheatsheet-cmd" />
+                <ui:Label text="to its paired portal. Both ways." class="cheatsheet-cmd" />
+            </ui:VisualElement>
+
+            <ui:VisualElement class="cheat-section section-press">
+                <ui:Label text="PRESS" class="cheatsheet-section" />
+                <ui:Label text="press()          press button ahead" class="cheatsheet-cmd" />
+            </ui:VisualElement>
+
+            <ui:VisualElement class="cheat-section section-control-flow">
+                <ui:Label text="CONTROL FLOW" class="cheatsheet-section" />
+                <ui:Label text="wait()                  pause 0.5s" class="cheatsheet-cmd" />
+                <ui:Label text="repeat(n) { ... }       run block n times" class="cheatsheet-cmd" />
+                <ui:Label text="function NAME { ... }   define a reusable block" class="cheatsheet-cmd" />
+                <ui:Label text="NAME                    call the function" class="cheatsheet-cmd" />
+            </ui:VisualElement>
+
+            <ui:Label text="Click ? again to close" class="cheatsheet-hint" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

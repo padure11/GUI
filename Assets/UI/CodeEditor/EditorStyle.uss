@@ -3,40 +3,100 @@
     border-radius: 8px;
     border-width: 1px;
     border-color: rgb(42, 47, 58);
-    padding: 12px;
-    width: 500px;
-    height: 700px;
+    padding: 0;
+    width: 480px;
+    height: 520px;
+    min-width: 280px;
+    min-height: 180px;
     position: absolute;
-    left: auto;
-    right: 10px;
-    top: 10px;
+    left: 20px;
+    bottom: 20px;
+    overflow: hidden;
 }
 
-.editor-header {
+.title-bar {
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    padding: 10px 14px;
+    height: 36px;
+    padding-left: 12px;
+    padding-right: 4px;
     background-color: rgb(36, 40, 48);
-    border-radius: 6px;
-    margin-bottom: 8px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
-.player-label {
+.title-text {
     color: rgb(255, 107, 44);
-    font-size: 16px;
+    font-size: 14px;
     -unity-font-style: bold;
     letter-spacing: 3px;
+    margin-right: 12px;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin-right: 6px;
+}
+
+.status-dot-idle {
+    background-color: rgb(120, 130, 145);
+}
+
+.status-dot-running {
+    background-color: rgb(120, 220, 140);
+}
+
+.status-text {
+    color: rgb(180, 190, 200);
+    font-size: 12px;
+    -unity-font-style: italic;
+}
+
+.title-spacer {
+    flex-grow: 1;
+}
+
+.title-button {
+    width: 28px;
+    height: 28px;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    border-radius: 4px;
+    color: rgb(200, 210, 220);
+    font-size: 16px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+.title-button:hover {
+    background-color: rgb(60, 66, 78);
+    color: rgb(255, 255, 255);
+}
+
+.title-button-close:hover {
+    background-color: rgb(220, 80, 80);
+    color: rgb(255, 255, 255);
+}
+
+.editor-content {
+    flex-grow: 1;
+    padding: 12px;
+    overflow: hidden;
 }
 
 .run-button {
     background-color: rgb(255, 107, 44);
     border-radius: 8px;
     border-width: 0;
-    padding: 14px;
+    height: 44px;
     margin-bottom: 8px;
     color: rgb(255, 255, 255);
-    font-size: 18px;
+    font-size: 16px;
     -unity-font-style: bold;
     letter-spacing: 3px;
     -unity-text-align: middle-center;
@@ -50,6 +110,11 @@
     background-color: rgb(232, 93, 38);
 }
 
+.run-button:disabled {
+    background-color: rgb(100, 60, 40);
+    opacity: 0.6;
+}
+
 .code-input {
     flex-grow: 1;
     background-color: rgb(18, 21, 26);
@@ -58,6 +123,7 @@
     border-color: rgb(42, 47, 58);
     padding: 0;
     margin: 0;
+    overflow: hidden;
 }
 
 .code-input:focus {
@@ -74,20 +140,106 @@
     white-space: normal;
 }
 
-.code-input > .unity-text-field__input:focus {
-    border-color: rgb(255, 107, 44);
-}
-
 .resize-handle {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     position: absolute;
     bottom: 0;
     right: 0;
     background-color: rgb(80, 88, 102);
-    border-radius: 0 0 8px 0;
+    border-top-left-radius: 4px;
+    border-bottom-right-radius: 8px;
 }
 
 .resize-handle:hover {
     background-color: rgb(255, 107, 44);
 }
+
+.editor-panel.minimized {
+    height: 36px;
+    min-height: 36px;
+}
+
+.editor-panel.minimized .editor-content {
+    display: none;
+}
+
+.editor-panel.minimized .resize-handle {
+    display: none;
+}
+
+.cheatsheet {
+    position: absolute;
+    top: 36px;
+    right: 8px;
+    width: 320px;
+    padding: 12px;
+    background-color: rgba(18, 21, 26, 0.98);
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: rgb(255, 107, 44);
+    display: none;
+}
+
+.cheatsheet-section {
+    color: rgb(255, 107, 44);
+    font-size: 12px;
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.cheatsheet-cmd {
+    color: rgb(168, 219, 143);
+    font-size: 12px;
+    -unity-font-style: normal;
+    margin-left: 6px;
+    margin-bottom: 2px;
+    white-space: normal;
+}
+
+.cheatsheet-hint {
+    margin-top: 10px;
+    font-size: 10px;
+    color: rgb(120, 130, 145);
+    -unity-font-style: italic;
+    -unity-text-align: middle-center;
+}
+
+.cheat-section {
+    margin-bottom: 4px;
+}
+
+/* L1 (build index 1): movement only */
+.cheatsheet.level-1 .section-push,
+.cheatsheet.level-1 .section-pull,
+.cheatsheet.level-1 .section-portal,
+.cheatsheet.level-1 .section-press,
+.cheatsheet.level-1 .section-control-flow {
+    display: none;
+}
+
+/* L2: movement + push */
+.cheatsheet.level-2 .section-pull,
+.cheatsheet.level-2 .section-portal,
+.cheatsheet.level-2 .section-press,
+.cheatsheet.level-2 .section-control-flow {
+    display: none;
+}
+
+/* L3: movement + push + pull */
+.cheatsheet.level-3 .section-portal,
+.cheatsheet.level-3 .section-press,
+.cheatsheet.level-3 .section-control-flow {
+    display: none;
+}
+
+/* L4: movement + push + pull + portal */
+.cheatsheet.level-4 .section-press,
+.cheatsheet.level-4 .section-control-flow {
+    display: none;
+}
+
+/* L5: all sections visible (no hide rules) */
+

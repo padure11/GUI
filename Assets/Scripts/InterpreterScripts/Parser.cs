@@ -54,11 +54,49 @@ public class Parser
                 case "repeat": return ParseRepeat();
                 case "while": return ParseWhile();
                 case "if": return ParseIf();
+                case "function": return ParseFunctionDef();
             }
         }
 
         pos++;
         return null;
+    }
+
+    private Command ParseFunctionDef()
+    {
+        Command cmd = new Command("function_def");
+        pos++; // consume 'function'
+
+        SkipNewlines();
+        if (pos < tokens.Count && tokens[pos].type == TokenType.COMMAND)
+        {
+            cmd.name = tokens[pos].value;
+            pos++;
+        }
+        else
+        {
+            UnityEngine.Debug.LogWarning("Parser: 'function' must be followed by a name");
+            return cmd;
+        }
+
+        // Optional parens after function name: function name() { ... }
+        if (pos < tokens.Count && tokens[pos].type == TokenType.LPAREN)
+        {
+            pos++;
+            if (pos < tokens.Count && tokens[pos].type == TokenType.RPAREN) pos++;
+        }
+
+        SkipNewlines();
+        if (pos < tokens.Count && tokens[pos].type == TokenType.LBRACE)
+        {
+            pos++;
+            cmd.body = ParseBlock(true);
+        }
+
+        if (Lexer.IsBuiltinCommand(cmd.name))
+            UnityEngine.Debug.LogError("Parser: function name '" + cmd.name + "' shadows a built-in command");
+
+        return cmd;
     }
 
     private Command ParseSimpleCommand()

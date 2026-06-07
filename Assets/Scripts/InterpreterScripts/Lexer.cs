@@ -6,13 +6,15 @@ public class Lexer
     private static HashSet<string> commands = new HashSet<string>
     {
         "moveForward", "moveBack", "turnLeft", "turnRight",
-        "jump", "grab", "drop", "push", "press", "wait"
+        "jump", "grab", "drop", "push", "press", "pull", "wait"
     };
 
     private static HashSet<string> keywords = new HashSet<string>
     {
-        "repeat", "while", "if", "else"
+        "repeat", "while", "if", "else", "function"
     };
+
+    public static bool IsBuiltinCommand(string name) => commands.Contains(name);
 
     private static HashSet<string> conditions = new HashSet<string>
     {

@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="LevelCompleteStyle.uss" />
+    <ui:VisualElement name="lc-root" class="lc-root" picking-mode="Ignore">
+        <ui:VisualElement name="lc-overlay" class="lc-overlay" />
+        <ui:VisualElement name="lc-panel" class="lc-panel">
+            <ui:Label text="LEVEL COMPLETE" class="lc-title" />
+            <ui:Label text="Both robots reached the goal." class="lc-subtitle" />
+
+            <ui:VisualElement name="lc-buttons" class="lc-buttons">
+                <ui:Button name="lc-next" text="NEXT LEVEL" class="lc-button lc-button-primary" />
+                <ui:Button name="lc-menu" text="MAIN MENU" class="lc-button" />
+            </ui:VisualElement>
+
+            <ui:Label name="lc-waiting" text="Waiting for host..." class="lc-waiting" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
