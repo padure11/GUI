@@ -49,7 +49,6 @@ public class LevelCompleteUI : MonoBehaviour
     {
         if (root == null) return;
         root.style.display = DisplayStyle.Flex;
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayLevelComplete();
 
         int activeIndex = SceneManager.GetActiveScene().buildIndex;
         int lastIndex = SceneManager.sceneCountInBuildSettings - 1;
@@ -67,7 +66,6 @@ public class LevelCompleteUI : MonoBehaviour
 
     private void OnNextClicked()
     {
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayUIClick();
         if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsHost) return;
         if (LevelManager.Instance == null) return;
         LevelManager.Instance.LoadNextLevel();
@@ -75,7 +73,6 @@ public class LevelCompleteUI : MonoBehaviour
 
     private void OnMenuClicked()
     {
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayUIClick();
         if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsHost) return;
         if (GameSessionManager.Instance != null)
             GameSessionManager.Instance.BackToMenuClientRpc();

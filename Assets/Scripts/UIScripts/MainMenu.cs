@@ -97,7 +97,6 @@ public class MainMenu : MonoBehaviour
 
     private void OpenSettings()
     {
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayUIClick();
         if (settingsPanel != null) settingsPanel.style.display = DisplayStyle.Flex;
     }
 
@@ -119,6 +118,7 @@ public class MainMenu : MonoBehaviour
     async void Start()
     {
         Application.runInBackground = true;
+        ApplyPerformanceSettings();
 
         if (NetworkManager.Singleton != null)
             DontDestroyOnLoad(NetworkManager.Singleton.gameObject);
@@ -144,7 +144,6 @@ public class MainMenu : MonoBehaviour
 
     async void OnHostClicked()
     {
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayUIClick();
         if (!isInitialized) return;
         SetButtonsEnabled(false);
         SetStatus("Creating relay...");
@@ -189,7 +188,6 @@ public class MainMenu : MonoBehaviour
 
     async void OnJoinClicked()
     {
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayUIClick();
         if (!isInitialized) return;
 
         string code = (joinCodeInput.value ?? "").Trim().ToUpperInvariant();
@@ -238,7 +236,6 @@ public class MainMenu : MonoBehaviour
 
     void OnCopyCodeClicked()
     {
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayUIClick();
         if (string.IsNullOrEmpty(currentJoinCode)) return;
         GUIUtility.systemCopyBuffer = currentJoinCode;
         SetStatus("Code copied to clipboard");
@@ -254,9 +251,20 @@ public class MainMenu : MonoBehaviour
             joinButton.SetEnabled(JoinCodePattern.IsMatch(upper.Trim()));
     }
 
+    private void ApplyPerformanceSettings()
+    {
+        Application.targetFrameRate = -1;
+        QualitySettings.vSyncCount = 0;
+        QualitySettings.shadowDistance = 40f;
+        QualitySettings.shadowResolution = ShadowResolution.Medium;
+        QualitySettings.shadowCascades = 2;
+        QualitySettings.shadowmaskMode = ShadowmaskMode.DistanceShadowmask;
+        QualitySettings.skinWeights = SkinWeights.TwoBones;
+        QualitySettings.anisotropicFiltering = AnisotropicFiltering.Disable;
+    }
+
     void OnQuitClicked()
     {
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayUIClick();
         Debug.Log("Game Closed!");
 #if UNITY_EDITOR
         EditorApplication.isPlaying = false;

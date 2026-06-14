@@ -98,7 +98,6 @@ public class PlayerController : NetworkBehaviour
             yield break;
         }
 
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayWalkStep();
         SetMoving(true);
         Vector3 targetPosition = transform.position + transform.forward * 2f;
 
@@ -125,7 +124,6 @@ public class PlayerController : NetworkBehaviour
             yield break;
         }
 
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayWalkStep();
         SetMoving(true);
         Vector3 targetPosition = transform.position - transform.forward * 2f;
 
@@ -144,7 +142,6 @@ public class PlayerController : NetworkBehaviour
         if (isDeadThisRun) yield break;
         isMoving = true;
 
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayTurn();
         Quaternion targetRotation = transform.rotation * Quaternion.Euler(0, -90f, 0);
 
         while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
@@ -168,7 +165,6 @@ public class PlayerController : NetworkBehaviour
         if (isDeadThisRun) yield break;
         isMoving = true;
 
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayTurn();
         Quaternion targetRotation = transform.rotation * Quaternion.Euler(0, 90f, 0);
 
         while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
@@ -244,7 +240,6 @@ public class PlayerController : NetworkBehaviour
     private IEnumerator BoostJump(Vector3 target)
     {
         TriggerAnim(JumpHash);
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayJump();
         yield return new WaitForSeconds(jumpDuration * jumpWindUp);
 
         SetFlames(true);
@@ -265,7 +260,6 @@ public class PlayerController : NetworkBehaviour
             yield return null;
         }
         transform.position = target;
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayLand();
 
         SetFlames(false);
     }
@@ -365,7 +359,6 @@ public class PlayerController : NetworkBehaviour
         isMoving = true;
         float startTime = Time.time;
         TriggerAnim(PushHash);
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayPush();
 
         yield return new WaitForSeconds(crateLaunchDelay);
 
@@ -446,7 +439,6 @@ public class PlayerController : NetworkBehaviour
             {
                 isMoving = true;
                 TriggerAnim(PressHash);
-                if (AudioManager.Instance != null) AudioManager.Instance.PlayPress();
 
                 // așteaptă exact cât durează animația de press
                 yield return new WaitForSeconds(0.1f);   // lasă tranziția în Press să se așeze
@@ -487,7 +479,6 @@ public class PlayerController : NetworkBehaviour
             if (lever != null)
             {
                 TriggerAnim(PressHash);
-                if (AudioManager.Instance != null) AudioManager.Instance.PlayPull();
                 lever.Flip();
                 yield return new WaitForSeconds(1.5f);
             }
@@ -540,7 +531,6 @@ public class PlayerController : NetworkBehaviour
         isDeadThisRun = true;
         isDying = true;
 
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayDie();
         Debug.Log($"{PlayerLabel()} <color=red>Died</color>: {cause}");
 
         if (IsSpawned) PlayDeathEffectsClientRpc();

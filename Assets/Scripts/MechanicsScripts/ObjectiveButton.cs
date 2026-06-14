@@ -45,7 +45,6 @@ public class ObjectiveButton : NetworkBehaviour
 
     private void OnNetStateChanged(bool oldVal, bool newVal)
     {
-        if (newVal && AudioManager.Instance != null) AudioManager.Instance.PlayButtonPress();
         ApplyVisual(newVal);
     }
 

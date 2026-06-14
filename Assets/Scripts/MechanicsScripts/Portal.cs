@@ -57,7 +57,6 @@ public class Portal : MonoBehaviour
         }
 
         Debug.Log($"{robot.PlayerLabel()} <color=#9b59ff>entered portal</color> '{name}' → will teleport");
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayPortalEnter();
         robot.pendingPortal = this;
     }
 

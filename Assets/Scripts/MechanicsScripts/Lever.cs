@@ -49,7 +49,6 @@ public class Lever : NetworkBehaviour
 
     private void OnNetStateChanged(bool oldVal, bool newVal)
     {
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayLeverPull();
         ApplyVisualAndTargets(newVal, instant: false);
     }
 

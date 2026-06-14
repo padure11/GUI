@@ -159,10 +159,13 @@
     align-items: center;
     margin-top: 4px;
     margin-bottom: 8px;
+    width: 100%;
+    overflow: hidden;
 }
 
 .mm-volume-label {
     width: 60px;
+    flex-shrink: 0;
     color: rgb(200, 210, 220);
     font-size: 13px;
     -unity-font-style: bold;
@@ -171,4 +174,7 @@
 
 .mm-slider {
     flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    margin-right: 8px;
 }

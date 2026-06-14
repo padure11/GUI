@@ -96,7 +96,6 @@ public class CodeEditorUI : MonoBehaviour
     private void ToggleCheatsheet()
     {
         if (cheatsheet == null) return;
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayUIClick();
         bool visible = cheatsheet.resolvedStyle.display != DisplayStyle.None;
         cheatsheet.style.display = visible ? DisplayStyle.None : DisplayStyle.Flex;
     }
@@ -124,7 +123,6 @@ public class CodeEditorUI : MonoBehaviour
         string code = codeInput.value;
         int playerIndex = NetworkManager.Singleton.IsHost ? 0 : 1;
 
-        if (AudioManager.Instance != null) AudioManager.Instance.PlayCodeRun();
         SetStatus(true);
         runButton.SetEnabled(false);
         GameSessionManager.Instance.SubmitCodeServerRpc(code, playerIndex);
