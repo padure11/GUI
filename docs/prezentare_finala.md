@@ -101,31 +101,30 @@
 
 **Conținut slide (5-5-5):**
 
-**Stack:**
+**Stack tehnic:**
 - Unity 2022.3 + URP
 - Netcode for GameObjects + Relay
 - UI Toolkit (UXML + USS)
 - Lexer/Parser/Executor custom
 
-**Optimizări:**
-- URP + lightmap baking
-- Static batching tile-uri
-- Server-authoritative (zero physics duplicat)
-- Frame rate cap 60 FPS
-- DontDestroyOnLoad NetworkManager
+**Optimizări de randare:**
+- Frustum Culling (URP automatic)
+- Backface Culling (URP automatic)
+- SRP Batcher (URP automatic)
+- Lightmap Baking (manual, statică)
 
-**Imagine:** diagrama Client ↔ Relay ↔ Host sau before/after FPS
+**Imagine:** screenshot Stats panel cu cifrele tale (200+ FPS) sau diagramă URP rendering pipeline
 
 **Transcript (~55 sec):**
 > „Tehnic, jocul rulează pe Unity 2022.3 cu Universal Render Pipeline, Netcode for GameObjects pentru sincronizare și Unity Relay pentru matchmaking prin cod de 6 caractere — fără IP public, funcționează prin NAT.
 >
 > **Pe proiectare**, am ales arhitectura server-authoritative: serverul rulează toate coroutinele de mișcare, clienții doar afișează sincronizat prin NetworkTransform. Asta elimină munca duplicată de physics pe client și a rezolvat un bug major în care alt-tab-ul dezsincroniza roboții.
 >
-> **Optimizări de randare**: lightmap baking pentru toată geometria statică, static batching pe tile-uri, frame rate cap la 60 FPS — fără cap, GPU-ul forțează 500+ FPS și saturează inutil, generând lag termal pe laptop.
+> **Optimizări de randare**: URP-ul aplică automat trei tehnici esențiale — **Frustum Culling** (sare peste obiectele din afara camerei), **Backface Culling** (sare peste fețele invizibile ale mesh-urilor) și **SRP Batcher** (combină automat draw calls pentru shadere compatibile). Peste astea am adăugat **Lightmap Baking** manual — am pre-calculat lumina statică în texturi prin Generate Lighting, ceea ce elimină calculul real-time per frame.
 >
-> **Management de erori**: parser-ul aruncă excepții cu poziție linie/coloană pe cod invalid; movement coroutines au early-return pe raycast Blocked; NetworkManager re-hook pe disconnect cu retry; PlayerPrefs au valori default ca să nu crape la prima rulare.
+> **Analiză critică**: am încercat și Occlusion Culling, dar pe scenele noastre cu sub 50 de obiecte, costul CPU-ului de raycast depășea economia GPU — am renunțat. Optimizările trebuie alese în funcție de complexitatea reală a scenei, nu bifate dintr-un checklist.
 >
-> Rezultat măsurat: 60 FPS stabil pe configurații medii, până la 120 pe desktop puternic."
+> Rezultat măsurat: peste 200 FPS în Editor pe configurații medii, stabilitate confirmată pe laptop integrat după optimizările manuale."
 
 ---
 
